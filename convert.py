@@ -1,8 +1,12 @@
 import xml.etree.ElementTree as ET
 from xml.dom import minidom
 
-def createXML( values ):
+def createXML( values, activities ):
     date = values[0]
+    dateValues = date.split(" ")
+    day = dateValues[0]
+    month = dateValues[1]
+    year = dateValues[2]
     # length = values[1]
     # seconds = values[2]
     # pulse = values[3]
@@ -10,8 +14,9 @@ def createXML( values ):
     # weather = values[5]
     # notes = values[6]
     # shoe  = values[7]
-    
-
+    activity = ET.SubElement(activities, "Activity", Sport="Running")
+    id = ET.SubElement(activity, "Id")
+    id.text = '20%s-%s-%sT00:00:00Z'%(year,month,day)
 
 #date,length,seconds,pulse,weight,weather,notes,shoe 
 f = open('Laufergebnisse.txt','r')
@@ -21,7 +26,7 @@ activities = ET.SubElement(root, "Activities")
 
 for line in f:
     values = line.rstrip().split(';')
-    createXML(values)
+    createXML(values, activities)
     
 f.close()
 
