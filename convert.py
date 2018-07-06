@@ -7,8 +7,8 @@ def createXML( values, activities ):
     day = dateValues[0]
     month = dateValues[1]
     year = dateValues[2]
-    # length = values[1]
-    # seconds = values[2]
+    length = values[1].strip()
+    seconds = values[2].strip()
     # pulse = values[3]
     # weight = values[4]
     # weather = values[5]
@@ -16,7 +16,12 @@ def createXML( values, activities ):
     # shoe  = values[7]
     activity = ET.SubElement(activities, "Activity", Sport="Running")
     id = ET.SubElement(activity, "Id")
-    id.text = '20%s-%s-%sT00:00:00Z'%(year,month,day)
+    id.text = '20%s-%s-%sT12:00:00Z'%(year,month,day)
+    lap = ET.SubElement(activity, "Lap", StartTime='20%s-%s-%sT12:00:00Z'%(year,month,day))
+    tts = ET.SubElement(lap, "TotalTimeSeconds")
+    tts.text = seconds
+    dm = ET.SubElement(lap, "DistanceMeters")
+    dm.text = length
 
 #date,length,seconds,pulse,weight,weather,notes,shoe 
 f = open('Laufergebnisse.txt','r')
